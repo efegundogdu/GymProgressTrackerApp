@@ -113,6 +113,8 @@
             transition: 0.3s;
         }
 
+        
+
         .exercise-form button:hover { background: #219150; transform: translateY(-2px); }
 
         table { width: 100%; border-collapse: collapse; }
@@ -153,9 +155,32 @@
     
     <button type="submit">Ekle</button>
 </form>
+
             
         </form>
     </div>
+
+    <style>
+    .accordion-header {
+        background: #f8f9fa;
+        padding: 15px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+    .accordion-content {
+        display: none;
+        padding: 15px;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+</style>
 
     <div class="list-section">
         <h3 style="color: #2c3e50;">Geçmiş Kayıtlarım</h3>
@@ -186,6 +211,13 @@
         {% if not exercises %}
             <p style="text-align: center; color: #95a5a6; margin-top: 30px; font-style: italic;">Henüz bir veri girişi yapılmadı!</p>
         {% endif %}
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; margin-bottom: 20px;">
+        <a href="/programs" style="background: #27ae60; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.1rem; display: inline-block;">
+            Hazır Antrenman Programlarını Görüntüle
+        </a>
+    </div>
     </div>
 </div>
 

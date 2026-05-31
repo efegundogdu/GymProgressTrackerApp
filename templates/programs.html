@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Gym P.T. - Hazır Programlar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body { 
+            margin: 0; padding: 20px; min-height: 100vh; display: flex; align-items: center; justify-content: center; 
+            font-family: 'Segoe UI', sans-serif; 
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=2070&auto=format&fit=crop'); 
+            background-size: cover; background-position: center; background-attachment: fixed; 
+        }
+        .container { 
+            width: 100%; max-width: 700px; background: rgba(255, 255, 255, 0.95); 
+            padding: 40px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); backdrop-filter: blur(10px); 
+        }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { background: #7f8c8d; color: white; padding: 8px 16px; text-decoration: none; border-radius: 8px; font-weight: bold; transition: 0.3s; }
+        .back-btn:hover { background: #636e72; }
+
+        .selector-box { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; background: #34495e; color: white; transition: 0.3s; }
+        .tab-btn:hover { background: #2c3e50; }
+        
+        .program-content { display: none; padding: 20px; background: #f8f9fa; border-left: 6px solid #27ae60; border-radius: 8px; }
+        .active-program { display: block; }
+        pre { font-family: 'Consolas', monospace; font-size: 0.95rem; color: #333; margin: 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Programını Seç</h1>
+        <a href="/dashboard" class="back-btn">Geri Dön</a>
+    </div>
+
+    <div class="selector-box">
+        <button class="tab-btn" onclick="showProgram('ppl')">PPL</button>
+        <button class="tab-btn" onclick="showProgram('ul')">U/L</button>
+    </div>
+
+    <!-- PPL Programı (Eski tam liste) -->
+    <div id="ppl" class="program-content active-program">
+        <pre>
+[PUSH]
+Bench press          3x8-10
+Incline db press     3x8-10
+Incline db fly       3x10-12
+Chest fly            3x10-12
+Machine shoulder     3x8-10
+Lateral raise        4x8-10
+Triceps pushdown     4x8-10
+Overhead triceps ext 4x10-12
+
+[PULL]
+Lat pulldown         3x8-10
+Cable row            3x8-10
+Barbell row          3x8-10
+Db row               3x8-10
+Pec deck rear delt   4x8-10
+Barbell curl         3x8-10
+Incline biceps curl  3x8-10
+Hammer curl          2x8-10
+
+[LEGS]
+Squat                3x8-10
+Leg press            3x8-10
+Dumbell lunges       3x8-10
+Leg extension        3x8-10
+Leg curl             3x8-10
+Db romanian DL       3x8-10
+Calf raise           3x8-10</pre>
+    </div>
+
+    <!-- U/L Programı (Dolu versiyon) -->
+    <div id="ul" class="program-content">
+        <pre>
+[UPPER A]
+Bench press          3x8-10
+Incline db press     3x8-10
+Barbell row          3x8-10
+Lat pulldown         3x8-10
+Shoulder press       3x8-10
+Lateral raise        3x10-12
+Barbell curl         3x8-10
+Triceps pushdown     3x8-10
+
+[LOWER A]
+Squat                3x8-10
+Leg press            3x8-10
+Leg extension        3x10-12
+Leg curl             3x10-12
+Db lunges            3x10-12
+Db romanian DL       3x10-12
+Calf raise           4x15-20</pre>
+    </div>
+</div>
+
+<script>
+    function showProgram(id) {
+        document.querySelectorAll('.program-content').forEach(p => p.classList.remove('active-program'));
+        document.getElementById(id).classList.add('active-program');
+    }
+</script>
+
+</body>
+</html>

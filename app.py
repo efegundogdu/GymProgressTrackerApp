@@ -47,14 +47,23 @@ def home():
 def dashboard():
     if "user_id" not in session:
         return redirect(url_for("login"))
-
+    
     conn = get_connection()
-    # Kullanıcı ismini ve antrenman listesini çekiyoruz
     user = conn.execute("SELECT username FROM users WHERE id = ?", (session["user_id"],)).fetchone()
     exercises = conn.execute("SELECT * FROM exercises WHERE user_id = ?", (session["user_id"],)).fetchall()
     conn.close()
-    
     return render_template("index.html", exercises=exercises, username=user['username'])
+
+@app.route("/programs")
+def programs():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+    
+    hazir_programlar = [
+        {"baslik": "Upper / Lower (4 Gün)", "detay": "Pazartesi: Upper, Salı: Lower, Perşembe: Upper, Cuma: Lower"},
+        {"baslik": "Push / Pull / Legs (6 Gün)", "detay": "Push: Göğüs/Omuz/Triceps | Pull: Sırt/Biceps | Legs: Bacak/Karın"}
+    ]
+    return render_template("programs.html", programs=hazir_programlar)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
