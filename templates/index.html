@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>G.P.T.</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='photo.jpg') }}">
+    <title>Gym P.T.</title>
 
     <body>
         <h1> Welcome to the Gym Progress Tracker</h1>
@@ -39,3 +39,11 @@
     }
     </script>
 </html>
+
+<form action="/add" method="POST">
+    <input type="text" name="exercise_name" placeholder="Egzersiz Adı" required>
+    <input type="number" name="weight" placeholder="Ağırlık (kg)" step="0.5" required>
+    <input type="number" name="reps" placeholder="Tekrar" required>
+    <input type="number" name="sets" placeholder="Set" required>
+    <button type="submit">Ekle</button>
+</form>
