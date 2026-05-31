@@ -1,49 +1,182 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='photo.jpg') }}">
-    <title>Gym P.T.</title>
+    <title>Gym P.T. - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body { background: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }
+        
+        .dashboard-wrapper {
+            max-width: 1100px;
+            margin: 20px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
 
-    <body>
-        <h1> Welcome to the Gym Progress Tracker</h1>
-        <br><br>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
 
-        <form method="POST">
-        <h5> Username: </h5> 
-        <input type="text" name="username" placeholder="Username" id="username">
-        <h5> Password: </h5>
-        <input type="password" name="password" placeholder="1234" id="password">
-        <button type="button" onclick="togglePassword()">👁️</button>
-        <br><br>
-        <button type="submit">Login </button>
+        .header h2 { margin: 0; color: #2c3e50; font-size: 1.8rem; }
+        .header span { color: #7f8c8d; }
+
+        .logout-btn {
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid #e74c3c;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover { background: #e74c3c; color: white; }
+
+        .add-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+
+        .exercise-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .exercise-form input {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .exercise-form button {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        body { 
+            margin: 0; 
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Arka plan*/
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .dashboard-wrapper {
+            width: 100%;
+            max-width: 1100px;
+            margin: 20px auto;
+            /* Saydam Cam */
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px); /* Bulanıklık efecti*/
+        }
+
+        /* Inputların Görünüşü*/
+        .add-section {
+            background: rgba(248, 249, 250, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            border: 1px solid #eee;
+        }
+
+        .exercise-form button:hover { background: #219150; transform: translateY(-2px); }
+
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 15px; background: #f8f9fa; color: #7f8c8d; font-size: 0.85rem; text-transform: uppercase; border-bottom: 2px solid #eee; }
+        td { padding: 15px; border-bottom: 1px solid #eee; color: #2c3e50; font-size: 1rem; }
+        
+        .delete-link { color: #e74c3c; font-weight: bold; text-decoration: none; padding: 5px 10px; border: 1px solid #e74c3c; border-radius: 5px; font-size: 0.9rem; }
+        .delete-link:hover { background: #e74c3c; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-wrapper">
+
+<div class="header">
+        <div>
+            <h2>Antrenman Takip Paneli</h2>
+            <span>Hoş geldin, <strong>{{ username }}</strong>!</span>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <a href="/" class="home-btn">Ana Sayfaya Dön</a>
+            
+            <a href="/logout" class="logout-btn">Oturumu Sonlandır</a>
+        </div>
+    </div>
+
+    <div class="add-section">
+        <h3 style="margin-top: 0; color: #2c3e50;">Yeni Egzersiz Ekle</h3>
+        <form class="exercise-form" action="/add_exercise" method="POST">
+            <input type="text" name="name" placeholder="Egzersiz Adı" required>
+            <input type="number" step="0.1" name="weight" placeholder="Ağırlık (kg)" required>
+            <input type="number" name="sets" placeholder="Set Sayısı" required> <input type="number" name="reps" placeholder="Tekrar" required>
+            <button type="submit">Listeye Ekle</button>
         </form>
+    </div>
 
-        <br><br><br><br>
-        
-        <a href="/register"> Register </a>
-        <br><br>
-        
-        
-    </body>
-    <script>
-    function togglePassword() {
-    const pass = document.getElementById("password");
+    <div class="list-section">
+        <h3 style="color: #2c3e50;">Geçmiş Kayıtlarım</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Egzersiz</th>
+                    <th>Ağırlık</th>
+                    <th>Set</th> <th>Tekrar</th>
+                    <th>Toplam Hacim</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ex in exercises %}
+                <tr>
+                    <td><strong>{{ ex['name'] }}</strong></td>
+                    <td>{{ ex['weight'] }} kg</td>
+                    <td>{{ ex['sets'] }}</td> <td>{{ ex['reps'] }}</td>
+                    <td>{{ ex['volume'] }} kg</td> 
+                    <td><a href="/delete/{{ ex['id'] }}" class="delete-link" onclick="return confirm('Silmek istediğine emin misin?')">Sil</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if not exercises %}
+            <p style="text-align: center; color: #95a5a6; margin-top: 30px; font-style: italic;">Henüz bir veri girişi yapılmadı!</p>
+        {% endif %}
+    </div>
+</div>
 
-    if (pass.type === "password") {
-        pass.type = "text";
-    } else {
-        pass.type = "password";
-    }
-    }
-    </script>
+</body>
 </html>
-
-<form action="/add" method="POST">
-    <input type="text" name="exercise_name" placeholder="Egzersiz Adı" required>
-    <input type="number" name="weight" placeholder="Ağırlık (kg)" step="0.5" required>
-    <input type="number" name="reps" placeholder="Tekrar" required>
-    <input type="number" name="sets" placeholder="Set" required>
-    <button type="submit">Ekle</button>
-</form>

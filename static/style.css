@@ -1,0 +1,155 @@
+
+/* Genel Ayarlar */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+}
+
+/* Cam Efekti Veren Konteynır (Login ve Register için) */
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+    backdrop-filter: blur(10px); /* Cam efekti arkasını bulanıklaştırır */
+    box-sizing: border-box;
+}
+
+/* Başlıklar */
+h1, h2, h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+/* Form Elemanları */
+input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    display: inline-block;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+}
+
+/* Butonlar */
+button {
+    width: 100%;
+    background-color: #27ae60;
+    color: white;
+    padding: 14px 20px;
+    margin: 15px 0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #219150;
+}
+
+/* Linkler */
+a {
+    color: #3498db;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Dashboard Özel Ayarları */
+.dashboard-container {
+    max-width: 1100px;
+    margin: 50px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+}
+
+/* Tablo Tasarımı */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+}
+
+table th {
+    background-color: #f8f9fa;
+    color: #7f8c8d;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+    padding: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    color: #2c3e50;
+}
+
+/* Antrenman Ekleme Formu (Grid) */
+.exercise-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    background: #fdfdfd;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 12px;
+}
+
+.exercise-form button {
+    margin: 0; /* Grid içindeki butonu hizalamak için */
+}
+
+/* Silme Butonu */
+.delete-btn {
+    color: #e74c3c;
+    font-weight: bold;
+    padding: 5px 10px;
+    border: 1px solid #e74c3c;
+    border-radius: 5px;
+}
+
+.delete-btn:hover {
+    background: #e74c3c;
+    color: white;
+    text-decoration: none;
+}
+
+.home-btn {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid #3498db;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .home-btn:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+        }
