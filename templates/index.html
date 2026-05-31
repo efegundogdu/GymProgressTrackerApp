@@ -5,25 +5,62 @@
     <title>Gym P.T. - Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        body { background: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }
+        
+        body { 
+            margin: 0; 
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Arka plan Görseli */
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
         
         .dashboard-wrapper {
+            width: 100%;
             max-width: 1100px;
             margin: 20px auto;
-            background: white;
+            /* Yarı saydam cam efekti */
+            background: rgba(255, 255, 255, 0.95); 
             padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
         }
 
         .header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             border-bottom: 2px solid #f0f0f0;
             padding-bottom: 20px;
             margin-bottom: 30px;
         }
+        
+
+        /* Sol üstteki Logo Butonu */
+        .logo-btn {
+            display: inline-block;
+            color: #27ae60;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.6rem;
+            letter-spacing: -1px;
+            transition: 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .logo-btn:hover {
+            color: #219150;
+            transform: scale(1.05);
+        }
+        
 
         .header h2 { margin: 0; color: #2c3e50; font-size: 1.8rem; }
         .header span { color: #7f8c8d; }
@@ -41,10 +78,11 @@
         .logout-btn:hover { background: #e74c3c; color: white; }
 
         .add-section {
-            background: #f8f9fa;
+            background: rgba(248, 249, 250, 0.8);
             padding: 25px;
             border-radius: 15px;
             margin-bottom: 40px;
+            border: 1px solid #eee;
         }
 
         .exercise-form {
@@ -75,43 +113,6 @@
             transition: 0.3s;
         }
 
-        body { 
-            margin: 0; 
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Arka plan*/
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-        
-        .dashboard-wrapper {
-            width: 100%;
-            max-width: 1100px;
-            margin: 20px auto;
-            /* Saydam Cam */
-            background: rgba(255, 255, 255, 0.95); 
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px); /* Bulanıklık efecti*/
-        }
-
-        /* Inputların Görünüşü*/
-        .add-section {
-            background: rgba(248, 249, 250, 0.8);
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 40px;
-            border: 1px solid #eee;
-        }
-
         .exercise-form button:hover { background: #219150; transform: translateY(-2px); }
 
         table { width: 100%; border-collapse: collapse; }
@@ -125,15 +126,17 @@
 <body>
 
 <div class="dashboard-wrapper">
-
-<div class="header">
-        <div>
-            <h2>Antrenman Takip Paneli</h2>
-            <span>Hoş geldin, <strong>{{ username }}</strong>!</span>
-        </div>
-        <div style="display: flex; gap: 10px;">
-            <a href="/" class="home-btn">Ana Sayfaya Dön</a>
+    <div class="header">
+        <div style="display: flex; flex-direction: column;">
+            <a href="/" class="logo-btn">Gym P.T.</a>
             
+            <div>
+                <h2>Antrenman Takip Paneli</h2>
+                <span>Hoş geldin, <strong>{{ username }}</strong>!</span>
+            </div>
+        </div>
+        
+        <div style="display: flex; align-items: center;">
             <a href="/logout" class="logout-btn">Oturumu Sonlandır</a>
         </div>
     </div>
@@ -141,10 +144,16 @@
     <div class="add-section">
         <h3 style="margin-top: 0; color: #2c3e50;">Yeni Egzersiz Ekle</h3>
         <form class="exercise-form" action="/add_exercise" method="POST">
-            <input type="text" name="name" placeholder="Egzersiz Adı" required>
-            <input type="number" step="0.1" name="weight" placeholder="Ağırlık (kg)" required>
-            <input type="number" name="sets" placeholder="Set Sayısı" required> <input type="number" name="reps" placeholder="Tekrar" required>
-            <button type="submit">Listeye Ekle</button>
+    <input type="text" name="name" placeholder="Egzersiz Adı" required>
+    
+    <input type="number" step="0.1" name="weight" placeholder="Kilo" min="0" required>
+    
+    <input type="number" name="sets" placeholder="Set" min="1" required> 
+    <input type="number" name="reps" placeholder="Tekrar" min="1" required>
+    
+    <button type="submit">Ekle</button>
+</form>
+            
         </form>
     </div>
 
@@ -155,7 +164,8 @@
                 <tr>
                     <th>Egzersiz</th>
                     <th>Ağırlık</th>
-                    <th>Set</th> <th>Tekrar</th>
+                    <th>Set</th> 
+                    <th>Tekrar</th>
                     <th>Toplam Hacim</th>
                     <th>İşlem</th>
                 </tr>
@@ -165,7 +175,8 @@
                 <tr>
                     <td><strong>{{ ex['name'] }}</strong></td>
                     <td>{{ ex['weight'] }} kg</td>
-                    <td>{{ ex['sets'] }}</td> <td>{{ ex['reps'] }}</td>
+                    <td>{{ ex['sets'] }}</td> 
+                    <td>{{ ex['reps'] }}</td>
                     <td>{{ ex['volume'] }} kg</td> 
                     <td><a href="/delete/{{ ex['id'] }}" class="delete-link" onclick="return confirm('Silmek istediğine emin misin?')">Sil</a></td>
                 </tr>

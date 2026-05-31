@@ -3,7 +3,10 @@ import sqlite3
 from functions import calculate_volume # Hacim hesabı fonksiyonun
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey"
+from datetime import timedelta
+
+app.permanent_session_lifetime = timedelta(days=7) #7 Günlük Oturum
+app.secret_key = "lightweightbaby"
 
 def get_connection():
     conn = sqlite3.connect("database.db")
@@ -37,7 +40,8 @@ def init_db():
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    username = session.get("username") # Oturumun Açık kalması İÇİN
+    return render_template("home.html", username=username)
 
 @app.route("/dashboard")
 def dashboard():
@@ -63,6 +67,8 @@ def login():
 
         if user:
             session["user_id"] = user["id"]   
+            session["username"] = user["username"]
+            session.permanent = True
             return redirect(url_for("dashboard"))
         else:
             return "Hatalı giriş! <a href='/login'>Geri dön</a>"

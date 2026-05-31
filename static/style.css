@@ -138,18 +138,28 @@ table td {
     text-decoration: none;
 }
 
-.home-btn {
-            color: #3498db;
+.logo-btn {
+            display: inline-block;
+            color: #27ae60; /* Spor salonu yeşili */
             text-decoration: none;
-            font-weight: bold;
-            border: 2px solid #3498db;
-            padding: 10px 20px;
-            border-radius: 10px;
+            font-weight: 900;
+            font-size: 1.4rem;
+            letter-spacing: -1px;
             transition: 0.3s;
+            width: fit-content;
         }
 
-        .home-btn:hover {
-            background: #3498db;
-            color: white;
-            transform: translateY(-2px);
+        .logo-btn:hover {
+            color: #219150;
+            transform: scale(1.05); /* Üzerine gelince hafif büyüme efekti */
+        }
+
+        /* Header'ı hizalamak için küçük düzeltme */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start; /* Elemanları yukarı yaslar */
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
         }

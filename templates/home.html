@@ -88,6 +88,16 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
         }
+        /* Çıkış butonu kırmızı */
+        .btn-logout {
+            background: #e74c3c;
+            color: white;
+        }
+        .btn-logout:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -100,11 +110,19 @@
         <div class="login-card">
             <div class="glass-container">
                 <h2 style="color: #2c3e50; margin-top: 0; font-size: 1.8rem;">Gelişimi Takip Et</h2>
-                <p style="color: #555; margin-bottom: 35px; line-height: 1.5;">Just do it.</p>
                 
                 <div style="display: flex; flex-direction: column;">
-                    <a href="/login" class="btn btn-login">Giriş Yap</a>
-                    <a href="/register" class="btn btn-reg">Hemen Kayıt Ol</a>
+                    {% if username %}
+                        <p style="color: #555; margin-bottom: 25px; line-height: 1.5;">
+                            Tekrar hoş geldin, <strong>{{ username }}</strong>!<br>Hazırsan devam edelim.
+                        </p>
+                        <a href="/dashboard" class="btn btn-login">Dashboard'a Git</a>
+                        <a href="/logout" class="btn btn-logout">Çıkış Yap</a>
+                    {% else %}
+                        <p style="color: #555; margin-bottom: 35px; line-height: 1.5;">Just do it.</p>
+                        <a href="/login" class="btn btn-login">Giriş Yap</a>
+                        <a href="/register" class="btn btn-reg">Hemen Kayıt Ol</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
