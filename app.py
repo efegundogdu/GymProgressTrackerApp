@@ -1,6 +1,7 @@
 from flask import Flask, redirect, render_template, request, session, url_for
 import sqlite3
-from functions import calculate_volume # Hacim hesabı fonksiyonun
+from functions import calculate_volume
+import functions # Hacim hesabı fonksiyonun
 
 app = Flask(__name__)
 from datetime import timedelta
@@ -101,28 +102,25 @@ def register():
 
 @app.route("/add_exercise", methods=["POST"])
 def add_exercise():
-    if "user_id" not in session:
-        return redirect(url_for("login"))
+    if "user_id" not in session: return redirect(url_for("login"))
     
-    # Form Verileri
+    # 1. Validasyon (Business Logic)
     try:
-        name = request.form["name"]
-        weight = float(request.form["weight"])
-        reps = int(request.form["reps"])
-        sets = int(request.form["sets"]) 
-        user_id = session["user_id"]
-
-        # Hacim hesabı
-        vol = calculate_volume(weight, reps, sets)
-
-        conn = get_connection()
+        w, r, s = float(request.form["weight"]), int(request.form["reps"]), int(request.form["sets"])
+        functions.validate_exercise(w, r, s) # Validasyon fonksiyonu
+        
+        # 2. Hacim Hesabı
+        vol = functions.calculate_volume(w, r, s)
+        
+        # 3. SQL İşlemi
+        conn = sqlite3.connect("database.db")
         conn.execute("INSERT INTO exercises (user_id, name, weight, reps, sets, volume) VALUES (?, ?, ?, ?, ?, ?)", 
-                     (user_id, name, weight, reps, sets, vol))
+                     (session["user_id"], request.form["name"], w, r, s, vol))
         conn.commit()
         conn.close()
     except Exception as e:
-        return f"Bir hata oluştu: {e}"
-    
+        return f"Hata: {e}"
+        
     return redirect(url_for("dashboard"))
 
 @app.route("/delete/<int:id>")
